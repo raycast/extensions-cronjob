@@ -1,0 +1,16 @@
+name: Trigger "Close stale issues and PRs" on raycast/extensions
+
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Repository Dispatch
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          gh api repos/raycast/extensions/dispatches --method POST -f event_type='trigger-stale-workflow'
